@@ -5,9 +5,8 @@ export function CartPanel(): ReactElement {
   const [qty, setQty] = useState('2'); // <input> values are always strings
   const item = cartItems[0];
 
-  // BUG #3: `qty` is a string, so `+` concatenates instead of multiplying.
-  // Expected price * qty = 19.98; actual is the string "9.992".
-  const subtotal = item.price + qty;
+  // Convert qty to a number before multiplication to get a correct subtotal.
+  const subtotal = item.price * Number(qty);
 
   return (
     <section className="panel">
