@@ -7,11 +7,10 @@ import { ApiPanel } from './api';
 
 function BuggyCounter(): ReactElement {
   const [count, setCount] = useState(0);
-  // BUG #5: missing dependency array -> the effect runs after every render and
-  // schedules another render -> "Maximum update depth exceeded" (infinite loop).
+  // Fixed: added empty dependency array to run effect only once on mount.
   useEffect(() => {
     setCount((c) => c + 1);
-  });
+  }, []);
   return <div className="panel__total">Render count: {count}</div>;
 }
 
