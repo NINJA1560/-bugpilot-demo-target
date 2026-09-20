@@ -11,7 +11,7 @@ function BuggyCounter(): ReactElement {
   // schedules another render -> "Maximum update depth exceeded" (infinite loop).
   useEffect(() => {
     setCount((c) => c + 1);
-  });
+  }, []);
   return <div className="panel__total">Render count: {count}</div>;
 }
 
