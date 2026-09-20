@@ -4,9 +4,8 @@ import { seedOrders, type Order } from './data';
 export function OrdersPanel(): ReactElement {
   const [orders, setOrders] = useState<Order[]>(seedOrders);
 
-  // BUG #2: reduce with no initial value throws "Reduce of empty array with no
-  // initial value" the moment the order list is cleared.
-  const total = orders.map((o) => o.total).reduce((a, b) => a + b);
+  // Fixed: provide initial value to reduce to handle empty orders array.
+  const total = orders.reduce((sum, o) => sum + o.total, 0);
 
   return (
     <section className="panel">
