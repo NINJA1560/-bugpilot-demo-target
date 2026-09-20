@@ -6,8 +6,11 @@ export function ApiPanel(): ReactElement {
 
   async function loadProduct(id: number): Promise<void> {
     const res = await fakeFetch(id);
-    // BUG #4: no `res.ok` check. On a 404 the body has no `name`, so the UI
-    // silently shows "Loaded: undefined" instead of reporting the error.
+    if (!res.ok) {
+      // Report error instead of treating as successful load
+      setStatus(`Error: ${res.status} ${res.statusText}`);
+      return;
+    }
     const product = await res.json();
     setStatus(`Loaded: ${product.name}`);
   }
