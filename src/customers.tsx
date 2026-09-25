@@ -2,16 +2,13 @@ import { useState, type ReactElement } from 'react';
 import { customers, type Customer } from './data';
 
 function CustomerCard({ customer }: { customer: Customer }): ReactElement {
-  // BUG #1 (MAIN DEMO BUG): the type says `profile` is always present, but the
-  // runtime data for customer #2 has none. Reading `.fullName` off it throws:
-  //   TypeError: Cannot read properties of undefined (reading 'fullName')
-  const name = customer.profile.fullName;
-  const tier = customer.profile.tier;
   return (
     <div className="card">
-      <div className="card__name">
-        <strong>{name}</strong> · <span>{tier}</span>
-      </div>
+      {customer.profile && (
+        <div className="card__name">
+          <strong>{customer.profile.fullName}</strong> · <span>{customer.profile.tier}</span>
+        </div>
+      )}
       <div className="card__email">{customer.email}</div>
     </div>
   );
@@ -24,7 +21,7 @@ export function CustomersPanel(): ReactElement {
   return (
     <section className="panel">
       <h2>Customers</h2>
-      <p className="panel__hint">Pick customer #2, then click “Load Customer” to trigger the demo bug.</p>
+      <p className="panel__hint">Pick a customer, then click “Load Customer”.</p>
       <div className="panel__row">
         <select
           aria-label="Customer"
