@@ -2,11 +2,10 @@ import { useState, type ReactElement } from 'react';
 import { customers, type Customer } from './data';
 
 function CustomerCard({ customer }: { customer: Customer }): ReactElement {
-  // BUG #1 (MAIN DEMO BUG): the type says `profile` is always present, but the
-  // runtime data for customer #2 has none. Reading `.fullName` off it throws:
-  //   TypeError: Cannot read properties of undefined (reading 'fullName')
-  const name = customer.profile.fullName;
-  const tier = customer.profile.tier;
+  // Safely handle missing `profile` data. Use optional chaining and fallback values
+  // to avoid TypeError when a customer (e.g., #2) lacks a profile object.
+  const name = customer.profile?.fullName ?? '(No name)';
+  const tier = customer.profile?.tier ?? '(No tier)';
   return (
     <div className="card">
       <div className="card__name">
